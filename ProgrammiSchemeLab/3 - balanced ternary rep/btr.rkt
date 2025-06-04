@@ -1,0 +1,230 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname btr) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+; BTR-DIGIT-SUM
+
+(define btr-digit-sum      ; val: carattere somma +/-/.
+  (lambda (a b c)          ; a, b, c: caratteri +/-/.
+    (cond ((char=? a #\+)
+           (cond ((char=? b #\+)
+                  (cond ((char=? c #\+)
+                         #\.)
+                        ((char=? c #\-)
+                         #\-)
+                        ((char=? c #\.)
+                         #\-)
+                        ))
+                 ((char=? b #\-)  
+                  (cond ((char=? c #\+)
+                         #\+)
+                        ((char=? c #\-)
+                         #\-)
+                        ((char=? c #\.)
+                         #\.)
+                        ))
+                 ((char=? b #\.)
+                  (cond ((char=? c #\+)
+                         #\-)
+                        ((char=? c #\-)
+                         #\.)
+                        ((char=? c #\.)
+                         #\+)
+                        ))
+                  )
+           )
+          ((char=? a #\-)
+           (cond ((char=? b #\+)  
+                  (cond ((char=? c #\+)
+                         #\+)
+                        ((char=? c #\-)
+                         #\-)
+                        ((char=? c #\.)
+                         #\.)
+                        ))
+                 ((char=? b #\-)
+                  (cond ((char=? c #\+)
+                         #\-)
+                        ((char=? c #\-)
+                         #\.)
+                        ((char=? c #\.)
+                         #\+)
+                        ))
+                 ((char=? b #\.)
+                  (cond ((char=? c #\+)
+                         #\.)
+                        ((char=? c #\-)
+                         #\+)
+                        ((char=? c #\.)
+                         #\-)
+                        ))
+                  )
+           )
+          ((char=? a #\.)
+           (cond ((char=? b #\+)
+                  (cond ((char=? c #\+)
+                         #\-)
+                        ((char=? c #\-)
+                         #\.)
+                        ((char=? c #\.)
+                         #\+)
+                        ))
+                 ((char=? b #\-)
+                  (cond ((char=? c #\+)
+                         #\.)
+                        ((char=? c #\-)
+                         #\+)
+                        ((char=? c #\.)
+                         #\-)
+                        ))
+                 ((char=? b #\.)  
+                  (cond ((char=? c #\+)
+                         #\+)
+                        ((char=? c #\-)
+                         #\-)
+                        ((char=? c #\.)
+                         #\.)
+                        ))
+                  )
+           ))
+      ))
+
+; BTR-CARRY ________________________________________________________________
+
+(define btr-carry      ; val: carattere somma +/-/.
+  (lambda (a b c)      ; a, b, c: caratteri +/-/.
+    (cond ((char=? a #\+)
+           (cond ((char=? b #\+)
+                  (cond ((char=? c #\+)
+                         #\+)
+                        ((char=? c #\-)
+                         #\.)
+                        ((char=? c #\.)
+                         #\+)
+                        ))
+                 ((char=? b #\-)  
+                  (cond ((char=? c #\+)
+                         #\.)
+                        ((char=? c #\-)
+                         #\.)
+                        ((char=? c #\.)
+                         #\.)
+                        ))
+                 ((char=? b #\.)
+                  (cond ((char=? c #\+)
+                         #\+)
+                        ((char=? c #\-)
+                         #\.)
+                        ((char=? c #\.)
+                         #\.)
+                        ))
+                  )
+           )
+          ((char=? a #\-)
+           (cond ((char=? b #\+)  
+                  (cond ((char=? c #\+)
+                         #\.)
+                        ((char=? c #\-)
+                         #\.)
+                        ((char=? c #\.)
+                         #\.)
+                        ))
+                 ((char=? b #\-)
+                  (cond ((char=? c #\+)
+                         #\.)
+                        ((char=? c #\-)
+                         #\-)
+                        ((char=? c #\.)
+                         #\-)
+                        ))
+                 ((char=? b #\.)
+                  (cond ((char=? c #\+)
+                         #\.)
+                        ((char=? c #\-)
+                         #\-)
+                        ((char=? c #\.)
+                         #\.)
+                        ))
+                  )
+           )
+          ((char=? a #\.)
+           (cond ((char=? b #\+)
+                  (cond ((char=? c #\+)
+                         #\+)
+                        ((char=? c #\-)
+                         #\.)
+                        ((char=? c #\.)
+                         #\.)
+                        ))
+                 ((char=? b #\-)
+                  (cond ((char=? c #\+)
+                         #\.)
+                        ((char=? c #\-)
+                         #\-)
+                        ((char=? c #\.)
+                         #\.)
+                        ))
+                 ((char=? b #\.)  
+                  (cond ((char=? c #\+)
+                         #\.)
+                        ((char=? c #\-)
+                         #\.)
+                        ((char=? c #\.)
+                         #\.)
+                        ))
+                  )
+           ))
+      ))
+
+; LSD ________________________________________________________________
+
+(define lsd    ; val: carattere
+  (lambda (s)  ; s: stringa btr
+    (if (string=? s "")
+        #\.
+        (string-ref s (- (string-length s) 1))
+        )
+    ))
+
+; HEAD ________________________________________________________________
+
+(define head   ; val: stringa
+  (lambda (s)  ; s: stringa btr
+    (if (= (string-length s) 0)
+        ""
+        (substring s 0 (- (string-length s) 1))
+        )
+    ))
+
+; NORMALIZED-BTR _______________________________________________________
+
+(define normalized-btr  ; val: stringa
+  (lambda (s)           ; s: striga btr
+    (if (and (char=? (string-ref s 0) #\.) (> (string-length s) 1))
+        (normalized-btr (substring s 1))
+        s
+    )
+  ))
+
+
+; BTR-CARRY-SUM _______________________________________________________
+
+(define btr-carry-sum  ; val: stringa btr
+  (lambda (a b c)      ; a, b: stringhe btr
+    (if (and (= (string-length a) 0) (= (string-length b) 0))
+        (string c)
+        (string-append
+         (btr-carry-sum (head a) (head b) (btr-carry (lsd a) (lsd b) c))
+         (string (btr-digit-sum (lsd a) (lsd b) c)))
+         )
+    ))
+
+
+; BTR-SUM _____________________________________________________________
+
+(define btr-sum  ; val: stringa btr
+  (lambda (a b)  ; a, b: stringhe
+    (normalized-btr (btr-carry-sum a b #\.))
+    ))
+
+
+

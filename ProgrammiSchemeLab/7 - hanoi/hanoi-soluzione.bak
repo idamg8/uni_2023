@@ -1,0 +1,67 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname hanoi-soluzione) (read-case-sensitive #t) (teachpacks ((lib "drawings.ss" "installed-teachpacks") (lib "hanoi.ss" "installed-teachpacks"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "drawings.ss" "installed-teachpacks") (lib "hanoi.ss" "installed-teachpacks")) #f)))
+; Procedura che restituisce la lista delle mosse da fare per risolvere il problema della Torre di Hanoi
+(define hanoi-moves  ; val: list
+  (lambda (n)        ; n: integer (> 0)
+    (hanoi-rec n 1 2 3)
+  ))
+
+; Procedura ricorsiva che restituisce la lista delle mosse da fare per risolvere il problema della Torre di Hanoi
+(define hanoi-rec    ; val: list
+  (lambda (n s d t)  ; n: integer (> 0), s: integer, d: integer, t: integer
+    (if (= n 1)
+      (list (list s d))
+      (let ((m1 (hanoi-rec (- n 1) s t d))
+            (m2 (hanoi-rec (- n 1) t d s)))
+        (append m1 (cons (list s d) m2))
+      )
+    )
+  ))
+
+; Procedura che restituisce la configurazione al termina della k-esima mossa del problema della Torre di Hanoi con n dischi
+(define hanoi-disks  ; val: list
+  (lambda (n k)      ; n: integer (> 0), k: integer (0 <= k <= 2^n-1)
+    (hanoi-disks-rec n k 1 2 3 0 0 0)
+  ))
+
+; Procedura ricorsiva che restituisce la configurazione al termina della k-esima mossa del problema della Torre di Hanoi con n dischi
+;(define hanoi-disks-rec
+;  (lambda (n k s d t a b c)
+;    (cond
+;      ((= n 0)
+;       (list (list s a) (list d b) (list t c)))
+;      ((< k (expt 2 (- n 1)))
+;       (hanoi-disks-rec (- n 1) k s t d (+ a 1) c b))
+;      (else
+;       (hanoi-disks-rec (- n 1) (- k (expt 2 (- n 1))) t d s c (+ b 1) a))
+;    )
+;  ))
+
+; Procedura che restituisce l'immagine che rappresenta la disposizione dei dischi al termine della k-esima mossa
+(define hanoi-picture  ; val: picture
+  (lambda (n k)        ; n: integer (> 0), k: integer (0 <= k <= 2^n-1)
+    (hanoi-picture-rec n k 1 2 3 0 0 0 (towers-background n) n)
+  ))
+
+; Procedura ricorsiva che restituisce l'immagine che rappresenta la disposizione dei dischi al termine della k-esima mossa
+(define hanoi-picture-rec
+  (lambda (n k s d t a b c picture tot)
+    (cond
+      ((= n 0) picture)
+      ((< k (expt 2 (- n 1))) (hanoi-picture-rec (- n 1) k s t d (+ a 1) c b (above (disk-image n tot s a) picture) tot))
+      (else (hanoi-picture-rec (- n 1) (- k (expt 2 (- n 1))) t d s c (+ b 1) a (above (disk-image n tot d b) picture) tot))
+    )
+  ))
+
+(define hanoi-disks-rec
+  (lambda (n k s d t a b c)
+    (cond
+      ((= n 0)
+       (list (list s a) (list d b) (list t c)))
+      ((< k (expt 2 (- n 1)))
+       (hanoi-disks-rec (- n 1) k s t d (+ a 1) b c))
+      (else
+       (hanoi-disks-rec (- n 1) (- k (expt 2 (- n 1))) t d s c (+ b 1) a))
+    )
+  ))

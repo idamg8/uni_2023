@@ -1,0 +1,226 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname esercitazione-esame) (read-case-sensitive #t) (teachpacks ((lib "drawings.ss" "installed-teachpacks"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "drawings.ss" "installed-teachpacks")) #f)))
+; ESERCIZIO 1
+
+(define match
+  (lambda (u v)
+    (if (or (string=? u "") (string=? v ""))
+      ""
+      (let ((uh (string-ref u 0)) (vh (string-ref v 0)) (s (match (substring u 1) (substring v 1))))
+        (if (char=? uh vh)
+          (string-append (string uh) s)
+          (string-append "*" s)
+        )
+      )
+    )
+  )
+)
+
+; ESERCIZIO 2
+
+(define offset (char->integer #\0))
+
+(define last-digit
+  (lambda (base)
+    (integer->char (+ (- base 1) offset))
+  )
+)
+
+(define next-digit
+  (lambda (dgt)
+    (if (char=? dgt #\9)
+      #\0
+      (integer->char (+ (char->integer dgt) 1))
+    )
+  )
+)
+
+(define increment
+  (lambda (num base)  ; 2 <= base <= 10
+    (let ((digits (string-length num)))
+      (if (= digits 0)
+        "1"
+        (let ((dgt (string-ref num (- digits 1))))
+          (if (char=? dgt (last-digit base))
+            (string-append (increment (substring num 0 (- digits 1)) base) "0")
+            (string-append (substring num 0 (- digits 1)) (string (next-digit dgt)))
+          )
+        )
+      )
+    )
+  )
+)
+
+; ESERCIZIO 3
+
+(define lcs      ; valore: lista di terne
+  (lambda (u v)  ; u, v: stringhe
+    (lcs-rec 1 u 1 v)
+  )
+)
+
+(define lcs-rec
+  (lambda (i u j v)
+    (cond
+      ((or (string=? u "") (string=? v "")) null)
+      ((char=? (string-ref u 0) (string-ref v 0)) (cons (list i j (substring u 0 1)) (lcs-rec (+ i 1) (substring u 1) (+ j 1) (substring v 1))))
+      (else (better (lcs-rec (+ i 1) (substring u 1) j v) (lcs-rec i u (+ j 1) (substring v 1))))
+    )
+  )
+)
+
+(define better
+  (lambda (x y)
+    (if (< (length x) (length y)) y x)
+  )
+)
+
+; ESERCIZIO 4
+
+(define cyclic-string       ; val: string
+  (lambda (pattern length)  ; pattern: string, length: integer (>= 0)
+    (if (= length 0)
+      ""
+      (string-append (cyclic-string pattern (- length 1)) (string (string-ref pattern (remainder (- length 1) (string-length pattern)))))
+    )
+  )
+)
+
+; ESERCIZIO 5
+
+(define av     ; val: list
+  (lambda (l)  ; l: non-empty list
+    (cond
+      ((= (length l) 1) null)
+      ((< (+ (car l) (car (cdr l))) 0) (cons -1 (av (cdr l))))
+      ((= (+ (car l) (car (cdr l))) 0) (cons 0 (av (cdr l))))
+      (else (cons 1 (av (cdr l))))
+    )
+  )
+)
+
+; ESERCIZIO 6
+
+(define r-val  ; val: integer
+  (lambda (s)  ; s: string
+    (let ((n (substring s 1)))
+      (if (= (string-length n) 0)
+        0
+        (+ (* (string->number (substring n (- (string-length n) 1))) (expt 2 (- 0 (string-length n)))) (r-val (substring s 0 (- (string-length s) 1))))
+      )
+    )
+  )
+)
+
+; ESERCIZIO 7
+
+(define shared   ; val: ordered list
+  (lambda (u v)  ; u: ordered list, v: ordered list
+    (cond
+      ((= (length u) 0) null)
+      ((is-in (car u) v) (cons (car u) (shared (cdr u) v)))
+      (else (shared (cdr u) v))
+    )
+  )
+)
+
+(define is-in    ; val: boolean
+  (lambda (a l)  ; a: integer, l: list
+    (cond
+      ((or (null? l) (> (car l) a)) #f)
+      ((= (car l) a) #t)
+      (else (is-in a (cdr l)))
+    )
+  )
+)
+
+; ESERCIZIO 8
+
+(define parity-check-failures  ; val: list
+  (lambda (l)                  ; l: list of binary strings
+    (parity-check-failures-rec l 0)
+  )
+)
+
+(define parity-check-failures-rec  ; val: list
+  (lambda (l i)                    ; l: list of binary strings, i: integer (>= 0)
+    (cond
+      ((= (length l) 0) null)
+      ((parity? (car l)) (parity-check-failures-rec (cdr l) (+ i 1)))
+      (else (cons i (parity-check-failures-rec (cdr l) (+ i 1))))
+    )
+  )
+)
+
+(define parity?  ; val: boolean
+  (lambda (s)    ; s: string
+    (parity?-rec s 0)
+  )
+)
+
+(define parity?-rec  ; val: boolean
+  (lambda (s c)      ; s: string, c: integer (>= 0)
+    (cond
+      ((string=? s "") (if (= (remainder c 2) 0) #t #f))
+      ((char=? (string-ref s 0) #\1) (parity?-rec (substring s 1) (+ c 1)))
+      (else (parity?-rec (substring s 1) c))
+    )
+  )
+)
+
+; ESERCIZIO 9
+
+(define closest-pair  ; val: list
+  (lambda (l)         ; l: ordered list (length >= 2)
+    (closest-pair-rec l -1 null)
+  )
+)
+
+(define closest-pair-rec  ; val: list
+  (lambda (l diff pair)   ; l: ordered list (length >= 2), diff: integer, pair: list
+    (cond
+      ((= (length l) 1) pair)
+      ((or (< diff 0) (> diff (- (car (cdr l)) (car l)))) (closest-pair-rec (cdr l) (- (car (cdr l)) (car l)) (list (car l) (car (cdr l)))))
+      (else (closest-pair-rec (cdr l) diff pair))
+    )
+  )
+)
+
+; ESERCIZIO 10
+
+(define sorted-char-list  ; val: list of chars
+  (lambda (s)             ; s: string
+    (sort (char-list-rec s null) less-than?)
+  )
+)
+
+(define less-than?
+  (lambda (a b)
+    (if (> (char->integer a) (char->integer b))
+      #f
+      #t
+    )
+  )
+)
+
+(define char-list-rec  ; val: list of chars
+  (lambda (s l)        ; s: string, l: list of chars
+    (cond
+      ((= (string-length s) 0) l)
+      ((char-is-in (string-ref s 0) l) (char-list-rec (substring s 1) l))
+      (else (char-list-rec (substring s 1) (cons (string-ref s 0) l)))
+    )
+  )
+)
+
+(define char-is-in  ; val: boolean
+  (lambda (a l)     ; a: char, l: list of chars
+    (cond
+      ((null? l) #f)
+      ((char=? (car l) a) #t)
+      (else (char-is-in a (cdr l)))
+    )
+  )
+)
+

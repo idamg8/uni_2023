@@ -1,0 +1,36 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname hanoi-def) (read-case-sensitive #t) (teachpacks ((lib "drawings.ss" "installed-teachpacks") (lib "hanoi.ss" "installed-teachpacks"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "drawings.ss" "installed-teachpacks") (lib "hanoi.ss" "installed-teachpacks")) #f)))
+; procedura che restituisce onfigurazione dischi alla k-esima mossa
+
+(define hanoi-disks
+  (lambda (n k)
+    (hanoi-disks-rec n k 1 2 3 0 0 0)
+    ))
+
+(define hanoi-disks-rec
+  (lambda (n k s d t ns nd nt)
+    (cond ((= n 0)
+           (list (list s ns) (list d nd) (list t nt)))
+          ((<= k (- (expt 2 (- n 1)) 1))
+           (hanoi-disks-rec (- n 1) k s t d (+ ns 1) nt nd))
+          (else
+           (hanoi-disks-rec (- n 1) (- k (expt 2 (- n 1))) t d s nt (+ nd 1) ns))
+          )
+    ))
+
+; procedura che restituisce rappresentazione grafica di hanoi-disks
+(define hanoi-picture  ; val: picture
+  (lambda (n k)        ; n: integer (> 0), k: integer (0 <= k <= 2^n-1)
+    (hanoi-picture-rec n k 1 2 3 0 0 0 (towers-background n) n)
+  ))
+
+(define hanoi-picture-rec
+  (lambda (n k s d t ns nd nt picture tot)
+    (cond
+      ((= n 0) picture)
+      ((< k (expt 2 (- n 1)))
+       (hanoi-picture-rec (- n 1) k s t d (+ ns 1) nt nd (above (disk-image n tot s ns) picture) tot))
+      (else (hanoi-picture-rec (- n 1) (- k (expt 2 (- n 1))) t d s nt (+ nd 1) ns (above (disk-image n tot d nd) picture) tot))
+    )
+  ))

@@ -1,0 +1,135 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname 20231107-BinToDec) (read-case-sensitive #t) (teachpacks ((lib "drawings.ss" "installed-teachpacks"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "drawings.ss" "installed-teachpacks")) #f)))
+(define punto
+  (lambda (bin)
+    (cond ((= (string-length bin) 1)
+          (if (char=? (string-ref bin 0) #\.)
+              (string-length bin)
+              ""))
+          ((> (string-length bin) 1)
+           (if (char=? (string-ref bin (- (string-length bin) 1)) #\.)
+               (string-length bin)
+               (punto (substring bin 0 (- (string-length bin) 1)))
+               ))
+          ((= (string-length bin) 0)
+           "") 
+        )
+    ))
+
+(define bit-val  ; val: intero
+  (lambda (bit)  ; bit: char #\0 o #\1
+    (if (char=? bit #\0)
+        0
+        1)
+    ))
+
+(define bin-val  ; val: intero non negativo
+  (lambda (bin)  ; bin: stringa non vuota di 0/1
+    (cond ((= (string-length bin) 0)
+           0)
+          ((= (string-length bin) 1)
+           (bit-val (string-ref bin 0)))
+          (else
+           (+
+           (* 2 (bin-val (substring bin 0 (- (string-length bin) 1))))
+           (bit-val (string-ref bin (- (string-length bin) 1)))
+           ))
+          )
+    ))
+
+; valore in base 10 del primo bit decimale: 0.5 / 0 (es. .1 = 0.5; .0 = 0.0) >> moltiplicazione per 2^-1 >> 1/2
+(define decbit-val ; razionale 0 / 0.5 
+  (lambda (bit)    ; bit: cifra binaria 0 / 1
+    (if (char=? bit #\0)
+        0
+        0.5)
+    ))
+
+(define decbin-val
+  (lambda (bin)
+    (if (= (string-length bin) 1)
+        (decbit-val (string-ref bin 0))
+        (+
+         (* 0.5 (decbin-val (substring bin 1)))
+         (decbit-val (string-ref bin 0))
+         )
+        )
+    ))
+
+
+(define bintodec  ; val: numero razionale in base 10 di valore corrispondente alla stringa binaria
+  (lambda (bin)   ; bin: stringa binaria (eventualmente decimale e/o con segno)
+    (cond ((string=? bin "")
+           "")
+          ((char=? (string-ref bin 0) #\-)
+           (if (eqv? (punto bin) "")
+           (* -1 (bin-val (substring bin 1)))
+           (* -1 (+ (bin-val (substring bin 1 (- (punto bin) 1))) (decbin-val (substring bin (punto bin)))))
+           ))
+          ((char=? (string-ref bin 0) #\+)
+           (if (eqv? (punto bin) "")
+           (bin-val (substring bin 1))
+           (+ (bin-val (substring bin 1 (- (punto bin) 1))) (decbin-val (substring bin (punto bin))))
+           ))
+          ((or (char=? (string-ref bin 0) #\0) (char=? (string-ref bin 0) #\1))
+           (if (eqv? (punto bin) "")
+           (bin-val bin)
+           (+ (bin-val (substring bin 0 (- (punto bin) 1))) (decbin-val (substring bin (punto bin))))
+           ))
+          ((string=? bin ".")
+           ".")
+          ((char=? (string-ref bin 0) #\.)
+           (decbin-val (substring bin 1))
+          ))
+    ))
+
+
+;; PER TUTTE LE BASI
+
+(define lun-base   ; intero
+  (lambda (b)  ; b: stringa contenente caratteri della base
+    (string-length b)
+    ))
+
+
+(define valore-cifra
+  (lambda (b c)      ; b: base - stringa, c: cifra della base - carattere
+    (cond ((= (string-length b) 1)
+          (if (char=? c (string-ref b 0))
+              (- (string-length b) 1)
+              ""))
+          ((> (string-length b) 1)
+           (if (char=? (string-ref b (- (string-length b) 1)) c)
+               (- (string-length b) 1)
+               (valore-cifra (substring b 0 (- (string-length b) 1)) c)
+               ))
+          ((= (string-length b) 0)
+           "") 
+        )
+    ))
+
+(define base-val  ; val: intero non negativo
+  (lambda (b s)  ; s: stringa non vuota
+    (cond ((= (string-length s) 0)
+           0)
+          ((= (string-length s) 1)
+           (valore-cifra b (string-ref s 0)))
+          (else
+           (+
+           (* (lun-base b) (base-val b (substring s 0 (- (string-length s) 1))))
+           (valore-cifra b (string-ref s (- (string-length s) 1)))
+           ))
+          )
+    ))
+
+(define decbin-val
+  (lambda (bin)
+    (if (= (string-length bin) 1)
+        (decbit-val (string-ref bin 0))
+        (+
+         (* 0.5 (decbin-val (substring bin 1)))
+         (decbit-val (string-ref bin 0))
+         )
+        )
+    ))
