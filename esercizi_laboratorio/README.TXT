@@ -1,12 +1,6 @@
-----------------------------------------------------------------------------------
-******** File README del progetto ********    Qui dovresti descrivere il progetto.
-Chi legge questo file, pur non sapendo nulla del progetto, dovrebbe ottenere tutte
-le informazioni di cui ha bisogno. Probabilmente le informazioni essenziali sono:
-----------------------------------------------------------------------------------
+Programmi laboratorio di Programmazione presso UniUd dell'anno 2023.
 
-NOME DEL PROGETTO:
-OBIETTIVO DEL PROGETTO
-VERSIONE oppure DATA:
-COME AVVIARE IL PROGETTO:
-AUTORI:
-ISTRUZIONI PER L'UTENTE:
+I codici Scheme sono in formato .rkt, apribili su DrRacket.
+I codici Java sono in pacchetti .bluej.
+
+Versioni apribili su altri editor sono presenti nelle cartelle "ProgrammiJavaLab" e "ProgrammiSchemeLab".
