@@ -1,0 +1,54 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname |correzione primo parziale|) (read-case-sensitive #t) (teachpacks ((lib "drawings.ss" "installed-teachpacks"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "drawings.ss" "installed-teachpacks")) #f)))
+; CORREZIONE ESAME
+
+; es. 1
+
+(define iter-seq   ; val: lista di D
+  (lambda (f x k)  ; f: D -> D, x: D, k: intero positivo
+    (if (= k 1)
+        (list x)  
+        (cons x (map f (iter-seq f x (- k 1))))  ; (x (f(x) ... f(...f(x)...))
+        )
+    ))
+
+(define iter-seq2
+  (lambda (f x k)
+    (if (= k 1)
+        (list x)
+        (cons x (iter-seq2 f (f x) (- k 1)))
+        )
+    ))
+        
+
+; N.B:
+; (append (list x) s) --> (cons x s) è primitiva, più efficiente
+; x =/= (list x) -> con (list x) la variable in ingresso viene processata (es. se x fosse = 3 + 2, (list x) restituisce 5)
+
+
+; es. 2
+
+(define 123-tess  ; val: intero
+  (lambda (n)     ; n > 0
+    (+ (trec (- n 1) 1)
+       (if (< n 2) 0 (trec (- n 2) 2))
+       (if (< n 3) 0 (trec (- n 3) 3))
+       )
+    ))
+
+(define trec
+  (lambda (n k)  ; n ≥ 0, k appartiene a {1,2,3} (k: lunghezza della base)
+    (if (= n 0)
+        1
+        (+ (if (= k 1)
+               0
+               (trec (- n 1) 1))
+           (if (or (= k 2) (< n 2))
+               0
+               (trec (- n 2) 2))
+           (if (or (= k 3) (< n 3))
+               0
+               (trec (- n 3) 3))
+           ))
+    ))

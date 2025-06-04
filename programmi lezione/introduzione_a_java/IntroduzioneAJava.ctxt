@@ -1,0 +1,28 @@
+#BlueJ class context
+comment0.target=IntroduzioneAJava
+comment0.text=\n\ traduzione\ di\ programmi\ Scheme\ in\ Java\n
+comment1.params=r\ h
+comment1.target=double\ supTotCilindro(double,\ double)
+comment1.text=\ \n\ public\:\ si\ pu\u00F2\ usare\ dall'esterno\ di\ questa\ classe\n\ static\:\ indica\ che\ ci\u00F2\ che\ \u00E8\ dichiarato\ \u00E8\ una\ procedura\ in\ senso\ classico\ (no\ correlazione\ con\ progr.\ ad\ oggetti)\n\ double\:\ indica\ il\ tipo\ di\ varibili\ o\ risultati\ di\ funzioni\ ->\ 64\ bit\ floating\ point\n
+comment2.params=sf
+comment2.target=java.lang.String\ pluraleSf(java.lang.String)
+comment2.text=\n\ (define\ (plurale-sf\n\ \ (lambda\ (sf)\n\ \ \ \ \ \ (substring\ sf\ 0\ (-\ (string-length\ sf)\ 1))\n\ \ \ \ \ \ "e")\n\ \ ))\n
+comment3.params=sm
+comment3.target=java.lang.String\ pluraleSm(java.lang.String)
+comment4.params=s
+comment4.target=boolean\ isFemminile(java.lang.String)
+comment4.text=\n\ (define\ femminile?\n\ \ (lambda\ (s)\n\ \ \ \ \ \ (char\=?\ (string-ref\ s\ (-\ (string-length\ s)\ 1))\ \#\\a)\n\ \ \ \ \ \ ;\ (string\=?\ (substring\ s\ (-\ (string-length\ s)\ 1))\ "a")\n\ \ ))\n
+comment5.params=s
+comment5.target=java.lang.String\ plurale(java.lang.String)
+comment5.text=\n\ TIPI\ SEMPLICI\:\n\ \ tipi\ numerici\:\ int\ (4\ byte),\ long\ (8\ byte)\ |\ float,\ double\n\ \ char\n\ \ boolean\n\ \n\ TIPI\ DI\ OGGETTI\:\n\ \ <oggetto>.<operazione>(<lista\ di\ argomenti>)\n\ \ \ \ \ \ es.\ String\ s,\ t...\n\ \ \ \ \ \ s.length()\ ||\ s.charAt(i)\ ||\ s.substring(i,\ j)\ /\ s.substring(i)\ ||\ s.concat(t)\ /\ s\ +\ t\ ||\ s.equals(t)\n
+comment6.params=k
+comment6.target=double\ lun(int)
+comment6.text=\n\ (define\ lun\ \ \ ;\ val\:\ numero\ reale\ (misura\ lato\ pi\u00F9\ lungo)\n\ \ (lambda\ (k)\ \ ;\ k\:\ intero\ non\ negativo\ (indice\ formato\:\ Ak)\n\ \ \ \ \ \ (if\ (>\=\ k\ 2)\n\ \ \ \ \ \ (/\ (lun\ (-\ k\ 2))\ 2)\n\ \ \ \ \ \ (if\ (\=\ k\ 0)\ s0\ s1)\n\ \ \ \ \ \ )\n\ ))\n\ \n\ (define\ s0\ (expt\ 2\ 1/4))\ \ \ ;\ radice\ quarta\ di\ 2\n\ (define\ s1\ (expt\ 2\ -1/4))\ \ ;\ inversa\ della\ radice\ quarta\ di\ 2\n
+comment7.params=btr
+comment7.target=int\ btrVal(java.lang.String)
+comment7.text=\n\ (define\ btr-val\n\ \ (lambda\ (btr)\n\ \ \ \ \ \ (let\ ((k\ (-\ (string-length\ btr)\ 1))\n\ \ \ \ \ \ )\n\ \ \ \ \ \ (if\ (\=\ k\ 0)\n\ \ \ \ \ \ \ \ \ \ (btd-val\ btr)\n\ \ \ \ \ \ \ \ \ \ (+\ (*\ 3\ (btr-val\ (substring\ btr\ 0\ k)))\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ (btd-val\ (substring\ btr\ k)))\n\ \ \ \ \ \ \ \ \ \ ))\n\ \ ))\n\ \ \n\ \ (define\ btd-val\n\ \ \ (lambda\ (btd)\n\ \ \ \ \ \ (cond\n\ \ \ \ \ \ \ \ \ \ ((string\=?\ btd\ "-")\ -1)\n\ \ \ \ \ \ \ \ \ \ ((string\=?\ btd\ ".")\ 0)\n\ \ \ \ \ \ \ \ \ \ ((string\=?\ btd\ "+")\ +1)\n\ \ \ \ \ \ )\n\ \ ))\n
+comment8.params=btd
+comment8.target=int\ btdVal(java.lang.String)
+comment9.params=n
+comment9.target=java.lang.String\ btrRep(int)
+numComments=10

@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=huffmanCode_II
+comment1.params=src
+comment1.target=int[]\ charHistogram(java.lang.String)
+comment2.params=freq
+comment2.target=Node\ huffmanTree(int[])
+comment3.params=root
+comment3.target=java.lang.String[]\ huffmanCodesTable(Node)
+comment4.params=n\ code\ codes
+comment4.target=void\ fillTable(Node,\ java.lang.String,\ java.lang.String[])
+comment5.params=src\ dst
+comment5.target=void\ compress(java.lang.String,\ java.lang.String)
+comment6.params=src\ dst
+comment6.target=void\ decompress(java.lang.String,\ java.lang.String)
+comment7.params=root\ in
+comment7.target=char\ decodeNextChar(Node,\ huffman_toolkit.InputTextFile)
+comment8.params=args
+comment8.target=void\ main(java.lang.String[])
+numComments=9

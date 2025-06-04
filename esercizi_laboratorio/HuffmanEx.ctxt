@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.target=HuffmanEx
+comment1.params=nameFile
+comment1.target=huffman_toolkit.OutputTextFile\ randomText(java.lang.String)
+numComments=2

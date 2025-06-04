@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=FifteenGame
+comment1.params=n
+comment1.target=FifteenGame(int)
+comment2.params=
+comment2.target=int[][]\ fillMatrix()
+comment3.params=
+comment3.target=boolean\ isOrdered()
+comment4.params=
+comment4.target=java.lang.String\ arrangement()
+comment5.params=n
+comment5.target=int[]\ findCoords(int)
+comment6.params=n
+comment6.target=boolean\ isMovable(int)
+comment7.params=n
+comment7.target=void\ moveTile(int)
+comment8.params=n
+comment8.target=void\ playGame(int)
+numComments=9

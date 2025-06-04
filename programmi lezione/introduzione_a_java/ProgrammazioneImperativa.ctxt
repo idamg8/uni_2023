@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=ProgrammazioneImperativa
+comment1.params=x\ y
+comment1.target=int\ mcd(int,\ int)
+comment1.text=\n\ Massimo\ comun\ divisore\ \n\ \n\ (define\ mcd\n\ \ (lambda\ (x\ y)\n\ \ \ \ \ \ (cond\ ((\=\ x\ y)\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ x)\n\ \ \ \ \ \ \ \ \ \ \ \ ((<\ x\ y)\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ (mcd\ x\ (-\ y\ x)))\n\ \ \ \ \ \ \ \ \ \ \ \ (else\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ (mcd\ (-\ x\ y)\ y))\n\ \ \ \ \ \ )\n\ ))\n
+comment2.params=x\ y
+comment2.target=int\ mcm(int,\ int)
+comment3.params=n
+comment3.target=boolean\ isPrimo(int)
+comment4.params=sup
+comment4.target=void\ listaPrimi(int)
+comment5.params=n
+comment5.target=int\ ufo(int)
+comment5.text=\n\ UFO\ procedure\n\ \n\ (define\ ufo\ \ \ ;\ val\:\ intero\n\ \ (lambda\ (x)\ \ ;\ x\:\ intero\ positivo\n\ \ \ \ \ \ (cond\ ((\=\ x\ 1)\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ 1))\n\ \ \ \ \ \ \ \ \ \ \ \ ((even?\ x)\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ (-\ (*\ 2\ (ufo\ (quotient\ x\ 2)))\ 1))\n\ \ \ \ \ \ \ \ \ \ \ \ (else\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ (+\ (*\ 2\ (ufo\ (quotient\ x\ 2)))\ 1))\n\ \ )))\n\ \n\ array\:\ |\ -|\ 1|\ 1|\ 3|\ 1|\ 3|\ 5|\ 7|\ 1|\ 3|\ 5|\ 7|\ 9|\n\ \ \ \ \ \ \ \ \ \ 0\ \ 1\ \ 2\ \ 3\ \ 4\ \ 5\ \ 6\ \ 7\ \ 8\ \ 9\ 10\ 11\ 12\n
+comment6.params=x
+comment6.target=int\ ufoTopDown(int)
+comment6.text=\ struttura\ top-down\n\ array\:\ |12|\ 6|\ 3|\ 1|\ \ utilizzato\ come\ stack\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 3\n\ \ \ \ \ \ \ \ \ \ \ \ \ 5\n\ \ \ \ \ \ \ \ \ \ 9\n
+comment7.params=btr
+comment7.target=int\ btrVal(java.lang.String)
+comment8.params=btd
+comment8.target=int\ btdVal(char)
+numComments=9

@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.target=BoardMod
+comment0.text=\n\ \ \ Board\ b\ \=\ new\ Board(n);\n\ \ \ \n\ \ \ b.size()\ \ \ \ \ \ \ \ \ \ \ \:\ int\n\ \ \ b.queensOn()\ \ \ \ \ \ \ \:\ int\n\ \ \ b.underAttack(i,j)\ \:\ boolean\n\ \ \ b.addQueen(i,j)\ \ \ \ \:\ void\n\ \ \ b.arrangement()\ \ \ \ \:\ String\n
+comment1.params=n
+comment1.target=BoardMod(int)
+comment2.params=b\ i\ j
+comment2.target=BoardMod(BoardMod,\ int,\ int)
+comment3.params=
+comment3.target=int\ size()
+comment4.params=
+comment4.target=int\ queensOn()
+comment5.params=i\ j
+comment5.target=boolean\ underAttack(int,\ int)
+comment6.params=i\ j
+comment6.target=BoardMod\ addQueen(int,\ int)
+comment7.params=
+comment7.target=java.lang.String\ arrangement()
+comment8.params=
+comment8.target=java.lang.String\ toString()
+numComments=9
